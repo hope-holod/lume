@@ -220,6 +220,29 @@
 .auth-link:hover {
     color: var(--choco-dark);
 }
+.auth-view button,
+input[type="button"],
+input[type="submit"]{
+    /* color: #fff !important; */
+    background: none !important;
+    box-shadow: none !important;
+    
+}
+.auth-view button:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+    /* color: #fff !important; */
+    background: none !important;
+    box-shadow: none !important;
+    
+}
+.auth-view button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+    /* color: #fff !important; */
+    background: none !important;
+    box-shadow: none !important;
+}
 
     </style>
 </head>
@@ -301,6 +324,18 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function togglePassword(id, btn) {
+        const input = document.getElementById(id);
+        if (!input) return;
+
+        const isHidden = input.type === 'password';
+        input.type = isHidden ? 'text' : 'password';
+        btn.textContent = isHidden ? 'Скрыть' : 'Показать';
+    }
+</script>
+</body>
+</html>
 
 </body>
 </html>

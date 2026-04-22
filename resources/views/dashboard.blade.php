@@ -1,17 +1,40 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layout')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+@section('title', 'Панель управления')
+
+@section('content')
+<head>
+<style>
+.dashboard-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    background: var(--beige);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--choco);
+    margin-bottom: 12px;
+}
+
+.page-subtitle {
+    font-size: 16px;
+    color: var(--choco-dark);
+    opacity: 0.8;
+}
+</style>
+</head>
+<div class="dashboard-container">
+    <h1 class="page-title">Добро пожаловать, {{ auth()->user()->name }}!</h1>
+
+    <p class="page-subtitle">
+        Это ваша панель управления. Здесь позже появятся заказы, настройки профиля и другие функции.
+    </p>
+</div>
+@endsection
+

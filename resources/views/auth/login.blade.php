@@ -1,47 +1,62 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layout')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('content')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    @if ($errors->any())
+        <div style="
+            background: #fce8e6;
+            border-left: 4px solid var(--choco);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: var(--choco);
+        ">
+            <ul style="margin: 0; padding-left: 18px;">
+                @foreach ($errors->all() as $error)
+                    <li style="font-size: 14px;">{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
+    @endif
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <div class="auth-box" style="max-width:600px; margin: 0 auto; border-radius:30px;">
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <h2 class="auth-h2 " style="text-align:center;">Авторизация</h2>
+            {{-- Email --}}
+            <label class="auth-label" for="email">Email</label>
+            <input id="email" class="auth-input" type="email" name="email" value="{{ old('email') }}" required autofocus>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            {{-- Password --}}
+            <label class="auth-label mt-3" for="password">Пароль</label>
+            <input id="password" class="auth-input" type="password" name="password" required>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            {{-- Remember --}}
+            <label class="auth-label mt-3" style="display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" name="remember">
+                Запомнить меня
             </label>
-        </div>
 
-        <div class="flex items-center justify-end mt-4">
+            <button class="auth-btn mt-4">
+                Войти
+            </button>
+
+            <p class="mt-3" style="text-align:center;">
+                Нет аккаунта?
+                <a class="auth-link" href="{{ route('register') }}">Зарегистрироваться</a>
+            </p>
+
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+                <p class="mt-2" style="text-align:center;">
+                    <a class="auth-link" href="{{ route('password.request') }}">
+                        Забыли пароль?
+                    </a>
+                </p>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        </form>
+
+    </div>
+
+@endsection

@@ -1,11 +1,14 @@
-<x-guest-layout>
+@extends('layout')
+
+@section('content')
+    <div class="auth-box" style="max-width:600px; margin: 0 auto; border-radius:30px;">
     <div class="mb-4 text-sm text-gray-600">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>
 
     <form method="POST" action="{{ route('password.confirm') }}">
         @csrf
-
+        <h2 class="auth-h2 " style="text-align:center;">Забыли пароль?</h2>
         <!-- Password -->
         <div>
             <x-input-label for="password" :value="__('Password')" />
@@ -24,4 +27,5 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+    </div>
+@endsection
