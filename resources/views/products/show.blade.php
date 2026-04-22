@@ -71,6 +71,7 @@
                 <h4 style="font-family: 'Montserrat Alternates';">Характеристики</h4>
 
                 <ul style="list-style: none; padding-left: 0; margin-top: 15px;">
+                    <p><strong>Категория:</strong> {{ $product->category->name ?? '—' }}</p>
                     <li><strong>Материал:</strong> {{ $product->material ?: '—' }}</li>
                     <li><strong>Цвет:</strong> {{ $product->color ?: '—' }}</li>
                     <li><strong>Стиль:</strong> {{ $product->style ?: '—' }}</li>

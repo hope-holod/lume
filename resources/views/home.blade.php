@@ -48,7 +48,7 @@
                         {{ $product->price }} BYN
                     </p>
 
-                    <a href="/products/{{ $product->id }}" class="btn btn-primary w-100">
+                    <a href="{{ route('products.show', $product->product_id) }}" class="btn btn-primary w-100">
                         Подробнее
                     </a>
                 </div>

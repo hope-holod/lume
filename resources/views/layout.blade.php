@@ -92,30 +92,133 @@
             color: --choco;
             font-size: 14px;
         }
-        /* Активные элементы */
-.form-select:focus,
-.form-control:focus {
-    border-color: var(--choco);
-    box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.25);
+                /* Активные элементы */
+        .form-select:focus,
+        .form-control:focus {
+            border-color: var(--choco);
+            box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.25);
+        }
+
+        /* Hover карточки */
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+        /* Единый стиль кнопок Lume */
+        .btn,
+        button,
+        input[type="submit"],
+        input[type="button"] {
+            border-radius: 12px !important;
+        }
+        input,
+        select,
+        textarea {
+            border-radius: 12px !important;
+        }
+        /* Убираем синий цвет при клике/фокусе у кнопок */
+        .btn:focus,
+        .btn:active,
+        button:focus,
+        button:active,
+        input[type="submit"]:focus,
+        input[type="submit"]:active,
+        input[type="button"]:focus,
+        input[type="button"]:active {
+            background-color: var(--choco-dark) !important;
+            border-color: var(--choco-dark) !important;
+            box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.35) !important;
+        }
+
+        /* Убираем синий outline у ссылок */
+        a:focus,
+        a:active {
+            outline: none !important;
+            box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.35) !important;
+        }
+
+        /* Убираем синий цвет у input/select при фокусе */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--choco) !important;
+            box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.25) !important;
+        }
+
+        /* Кнопка поиска — убрать синий при наведении */
+        .btn-outline-primary,
+        .btn-primary {
+            --bs-btn-focus-shadow-rgb: 74, 47, 39;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--choco) !important;
+            border-color: var(--choco) !important;
+            color: var(--white) !important;
+        }
+        .navbar-brand:focus,
+        .navbar-brand:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+/* Фирменные поля */
+.auth-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #d8d8d8;
+    background: var(--white);
+    font-size: 15px;
+    transition: 0.2s;
 }
 
-/* Hover карточки */
-.product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    transition: 0.3s;
+.auth-input:focus {
+    border-color: var(--choco);
+    box-shadow: 0 0 0 0.2rem rgba(74, 47, 39, 0.25);
+    outline: none;
 }
-/* Единый стиль кнопок Lume */
-.btn,
-button,
-input[type="submit"],
-input[type="button"] {
-    border-radius: 12px !important;
+
+/* Лейблы */
+.auth-label {
+    font-weight: 600;
+    color: var(--choco);
+    margin-bottom: 6px;
+    display: block;
 }
-input,
-select,
-textarea {
-    border-radius: 12px !important;
+
+/* Кнопка */
+.auth-btn {
+    width: 100%;
+    background: var(--choco);
+    color: var(--white);
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.auth-btn:hover {
+    background: var(--choco-dark);
+}
+
+/* Контейнер формы */
+.auth-box {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Ссылки */
+.auth-link {
+    color: var(--choco);
+    font-weight: 500;
+}
+
+.auth-link:hover {
+    color: var(--choco-dark);
 }
 
     </style>
@@ -125,7 +228,7 @@ textarea {
 
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="/"><img src="/logo.svg" alt="логотип"  height="32"></a>
+        <a class="navbar-brand logo" href="/"><img src="/logo.svg" alt="логотип"  height="32"></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
             <span class="navbar-toggler-icon"></span>
@@ -136,16 +239,31 @@ textarea {
                 <li class="nav-item"><a class="nav-link" href="/products">Каталог</a></li>
                 <li class="nav-item"><a class="nav-link" href="/favorites">Избранное</a></li>
                 <li class="nav-item"><a class="nav-link" href="/cart">Корзина</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile">Личный кабинет</a></li>
+
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Личный кабинет</a>
+                    </li>
+                @endguest
+
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">Личный кабинет</a>
+                    </li>
+                @endauth
             </ul>
         </div>
-        <form action="/products" method="GET" class="d-flex me-3">
-    <input type="text" name="search" 
-           class="form-control" 
-           placeholder="Поиск..." 
-           style="border-radius: 12px; max-width: 220px;">
-</form>
 
+    <form action="{{ route('products.search') }}" method="GET" class="d-flex" role="search">
+    <input
+        type="search"
+        name="q"
+        class="form-control me-2"
+        placeholder="Поиск по товарам..."
+        value="{{ request('q') }}"
+    >
+    <button class="btn  btn-primary" type="submit">Найти</button>
+</form>
     </div>
 </nav>
 
