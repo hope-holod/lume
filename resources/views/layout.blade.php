@@ -271,7 +271,7 @@ input[type="submit"]:hover {
 
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">Личный кабинет</a>
+                        <a class="nav-link" href="{{ route('account') }}">Личный кабинет</a>
                     </li>
                 @endauth
             </ul>

@@ -30,7 +30,35 @@
 
             {{-- Password --}}
             <label class="auth-label mt-3" for="password">Пароль</label>
-            <input id="password" class="auth-input" type="password" name="password" required>
+            <div  class="auth-view" style="position: relative;">
+                <input id="password"
+                    class="auth-input"
+                    type="password"
+                    name="password"
+                    required>
+
+                <button type="button"
+                    onclick="togglePassword('password', this)"
+                    style="
+                        position:absolute;
+                        right: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: none;
+                        border: none;
+                        padding: 0 5px;
+                        margin: 0;
+                        font-size: 12px;
+                        color: var(--choco);
+                        cursor: pointer;
+                        outline: none;
+                        box-shadow: none;
+                    "
+                    onmousedown="this.style.background='transparent'"
+                    onfocus="this.style.outline='none'">
+                Показать
+            </button>
+            </div>
 
             {{-- Remember --}}
             <label class="auth-label mt-3" style="display:flex; align-items:center; gap:8px;">

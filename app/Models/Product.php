@@ -19,14 +19,8 @@ class Product extends Model
         'size',
         'power',
         'category_id',
+        'collection_id',
     ];
-
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id', 'category_id');
-    }
-
 
     public function brand()
     {
@@ -38,8 +32,41 @@ class Product extends Model
         return $this->hasMany(Image::class, 'product_id', 'product_id');
     }
 
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Review::class, 'product_id', 'product_id');
+    // }
+    public function isFavorite()
+    {
+        return Favorite::where('user_id', auth()->id())
+            ->where('product_id', $this->product_id)
+            ->exists();
+    }
+    
     public function reviews()
     {
         return $this->hasMany(Review::class, 'product_id', 'product_id');
     }
+    public function userHasPurchased()
+    {
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return \DB::table('orders')
+            ->join('order_items', 'orders.order_id', '=', 'order_items.order_id')
+            ->where('orders.user_id', auth()->id())
+            ->where('order_items.product_id', $this->product_id)
+            ->exists();
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class, 'collection_id', 'collection_id');
+    }
+
+
 }

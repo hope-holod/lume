@@ -49,20 +49,19 @@
             <div class="d-flex gap-3 mt-4">
 
             {{-- В корзину --}}
-                <form action="#" method="POST">
+                <form method="POST" action="{{ route('cart.add', $product->product_id) }}">
                     @csrf
-                    <button class="btn btn-primary px-4">
-                        В корзину
-                    </button>
+                    <button class="btn btn-outline-dark px-4">В корзину</button>
                 </form>
 
                 {{-- В избранное --}}
-                <form action="#" method="POST">
+                <form method="POST" action="{{ route('favorites.toggle', $product->product_id) }}">
                     @csrf
-                    <button class="btn btn-outline-dark px-4">
-                        В избранное
+                    <button class="favorite-btn  btn btn-outline-dark px-4">
+                    В избранное
                     </button>
                 </form>
+
 
             </div>
 
@@ -90,6 +89,45 @@
             {{ $product->description ?: 'Подробное описание появится позже.' }}
         </p>
     </div>
+
+@if(auth()->check() && $product->userHasPurchased())
+<div style="background:var(--beige); padding:20px; border-radius:12px; margin-top:30px;">
+    <h3>Оставить отзыв</h3>
+
+    <form method="POST" action="{{ route('review.store', $product->product_id) }}">
+        @csrf
+
+        <label>Оценка</label>
+        <select name="rating" required style="padding:10px; border-radius:8px; margin-bottom:15px;">
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="1">★☆☆☆☆</option>
+        </select>
+
+        <label>Комментарий</label>
+        <textarea name="comment" style="width:100%; padding:12px; border-radius:8px;"></textarea>
+
+        <button class="btn" style="margin-top:15px;">Отправить</button>
+    </form>
+</div>
+@endif
+
+<h2 style="padding-top:20px;">Отзывы</h2>
+
+@if($product->reviews->isEmpty())
+    <p>Отзывов пока нет.</p>
+@else
+    @foreach($product->reviews as $review)
+        <div style="background:#ffffff; padding:15px; border-radius:20px; border:2px solid var(--choco); margin-bottom:15px;">
+            <p><strong>{{ $review->user->name }}</strong></p>
+            <p>Оценка: {{ $review->rating }} ★</p>
+            <p>{{ $review->comment }}</p>
+            <p style="color:#7a6a5a;">{{ $review->review_date }}</p>
+        </div>
+    @endforeach
+@endif
 
 </div>
 
